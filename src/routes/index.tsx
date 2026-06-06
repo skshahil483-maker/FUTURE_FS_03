@@ -206,6 +206,9 @@ function Index() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
+            <Button asChild size="icon" variant="ghost" aria-label="Orders">
+              <Link to="/orders"><ClipboardList className="w-4 h-4" /></Link>
+            </Button>
             <Button size="icon" variant="ghost" onClick={() => setDark((d) => !d)} aria-label="Toggle theme">
               {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
