@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
@@ -10,8 +10,10 @@ import {
   Coffee, UtensilsCrossed, Users, Zap, Sparkles, CarFront, Leaf, Smile,
   Star, MapPin, Phone, Clock, Menu as MenuIcon, X, Moon, Sun, ShoppingBag,
   Plus, Minus, Trash2, Instagram, Facebook, Twitter, MessageCircle, ChevronDown,
+  ClipboardList,
 } from "lucide-react";
 import heroImg from "@/assets/hero-cafe.jpg";
+import { saveOrder, whatsappUrl, type Order } from "@/lib/orders";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -139,8 +141,19 @@ function Index() {
 
   const placeOrder = () => {
     if (!cartCount) return;
-    toast.success("Order placed successfully!", {
-      description: `${cartCount} item(s) • ₹${cartTotal}. Our team will call you shortly.`,
+    const order: Order = {
+      id: `BB-${Date.now().toString(36).toUpperCase()}`,
+      items: Object.values(cart).map(({ item, qty }) => ({ name: item.name, price: item.price, qty })),
+      total: cartTotal,
+      type: "delivery",
+      placedAt: Date.now(),
+    };
+    saveOrder(order);
+    const url = whatsappUrl(order);
+    window.open(url, "_blank", "noopener");
+    toast.success("Order placed!", {
+      description: `${cartCount} item(s) • ₹${cartTotal}. Confirm on WhatsApp.`,
+      action: { label: "Track", onClick: () => (window.location.href = "/orders") },
     });
     setCart({});
     setCartOpen(false);
