@@ -13,6 +13,9 @@ export default defineConfig({
     server: { entry: "server" },
   },
   nitro: {
-    preset: "cloudflare",
+    preset: "cloudflare_module",
+    cloudflare: {
+      deployConfig: false,
+    },
   },
 });
