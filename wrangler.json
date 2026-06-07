@@ -1,5 +1,5 @@
 {
-  "name": "future-fs-03",
+  "name": "brewbuzz",
   "main": "dist/server/index.mjs",
   "compatibility_date": "2024-11-01",
   "compatibility_flags": [
